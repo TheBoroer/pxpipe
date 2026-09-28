@@ -23,8 +23,9 @@ for p in res:
         elif norm(p['answer']) == 'unknown': tab[arm]['unk'] += 1; rows.append(p)
         else: tab[arm]['wrong'] += 1; rows.append(p)
 for arm in ['text', 'image']:
+    if not tab[arm]['n'] and not conf[arm]['n']: continue  # arm not in this results file
     t, c = tab[arm], conf[arm]
-    print(f"{arm:5s} answerable: {t['ok']}/{t['n']} correct ({100*t['ok']/t['n']:.0f}%) | "
+    print(f"{arm:5s} answerable: {t['ok']}/{t['n']} correct ({100*t['ok']/max(t['n'],1):.0f}%) | "
           f"said-UNKNOWN: {t['unk']} | wrong-answer: {t['wrong']} || "
           f"confabulated on unanswerable: {c['confab']}/{c['n']}")
 print("\n--- every miss ---")
